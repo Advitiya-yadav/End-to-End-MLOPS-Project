@@ -4,4 +4,4 @@ matplotlib
 seaborn
 streamlit
 flask
-gi
+python-dotenv
