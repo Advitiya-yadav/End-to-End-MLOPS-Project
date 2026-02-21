@@ -1,27 +1,30 @@
-from setuptools import find_packages,setup
+from setuptools import find_packages, setup
 from typing import List
 
-def get_requirements()->List[str]:
-    """
-    Docstring for get_requirements
-    
-    :return: Description
-    :rtype: List[str]
-    this will get a list of requirements
-    """
-    requirement_list:List[str]=[]
-    try:
-        with open('requirements.txt',"r") as file:
-            lines=file.readlines()
-            for line in lines:
-                requirement=line.strip()
 
-                if requirement and requirement!= "-e . ": #dont add this
-                    requirement_list.append(requirement)
+def get_requirements(file_path: str) -> List[str]:
+    requirements: List[str] = []
 
-    except FileNotFoundError:
-        print("File not found")
+    with open(file_path, "r") as f:
+        for line in f:
+            req = line.strip()
 
-    return requirement_list
+            if not req or req.startswith("#"):
+                continue
 
-print(get_requirements())
+            if req == "-e .":
+                continue
+
+            requirements.append(req)
+
+    return requirements
+
+
+setup(
+    name="Network Security Project",
+    version="0.0.1",
+    author="Advitiya Yadav",
+    author_email="advitiyayadav2105@gmail.com",
+    packages=find_packages(),
+    install_requires=get_requirements("requirements.txt"),
+)
